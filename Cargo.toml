@@ -20,20 +20,20 @@ path = "src/lib.rs"
 
 [dependencies]
 log = { version = "^0.4", default-features = false, features = [
-    "release_max_level_warn",
+  "release_max_level_warn",
 ] }
 patina_adv_logger = { version = "16" }
 patina_debugger = { version = "16" }
 patina_dxe_core = { version = "16" }
 patina_mm = { version = "16" }
-patina_performance = { version = "16"}
+patina_performance = { version = "16" }
 patina_samples = { version = "16" }
 patina = { version = "16", features = ["enable_patina_tests"] }
 patina_ffs_extractors = { version = "16" }
 patina_stacktrace = { version = "16" }
 r-efi = { version = "^5", default-features = false }
 x86_64 = { version = "=0.15.2", default-features = false, features = [
-  "instructions"
+  "instructions",
 ], optional = true }
 zerocopy = { version = "0.8", features = ["derive"] }
 
