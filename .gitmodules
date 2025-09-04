@@ -1,4 +1,4 @@
 [submodule "patina-smbios"]
-	path = PATINA_TIANOCORE_DEV/patina-smbios
+	path = patina-smbios
 	url = https://github.com/OpenDevicePartnership/patina-smbios.git
 	branch = main
