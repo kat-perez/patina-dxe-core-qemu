@@ -303,6 +303,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "mu_pi"
+version = "6.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7d0cdb8b6c0d68ab80a720e84560635a0d1c6546414e8e15472d8cd96fbb596c"
+dependencies = [
+ "indoc",
+ "num-traits",
+ "r-efi",
+ "uuid",
+]
+
+[[package]]
 name = "mu_rust_helpers"
 version = "3.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -372,19 +384,21 @@ checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
 
 [[package]]
 name = "patina_adv_logger"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "log",
- "mu_pi",
+ "mu_pi 6.0.2",
  "mu_rust_helpers",
- "patina_sdk 6.0.2",
+ "patina_sdk 8.0.0",
  "r-efi",
  "spin",
+ "zerocopy",
+ "zerocopy-derive",
 ]
 
 [[package]]
 name = "patina_debugger"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "bitfield-struct",
  "cfg-if",
@@ -392,13 +406,13 @@ dependencies = [
  "log",
  "patina_internal_cpu",
  "patina_paging",
- "patina_sdk 6.0.2",
+ "patina_sdk 8.0.0",
  "spin",
 ]
 
 [[package]]
 name = "patina_dxe_core"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "arm-gic",
  "cfg-if",
@@ -408,16 +422,17 @@ dependencies = [
  "lazy_static",
  "linked_list_allocator",
  "log",
- "mu_pi",
+ "mu_pi 6.0.2",
  "mu_rust_helpers",
  "patina_debugger",
+ "patina_ffs",
  "patina_internal_collections",
  "patina_internal_cpu",
  "patina_internal_depex",
  "patina_internal_device_path",
  "patina_paging",
  "patina_performance",
- "patina_sdk 6.0.2",
+ "patina_sdk 8.0.0",
  "r-efi",
  "scroll",
  "spin",
@@ -426,24 +441,49 @@ dependencies = [
 ]
 
 [[package]]
+name = "patina_ffs"
+version = "8.0.0"
+dependencies = [
+ "log",
+ "mu_pi 6.0.2",
+ "patina_sdk 8.0.0",
+ "r-efi",
+]
+
+[[package]]
+name = "patina_ffs_extractors"
+version = "8.0.0"
+dependencies = [
+ "alloc-no-stdlib",
+ "brotli-decompressor",
+ "crc32fast",
+ "log",
+ "mu_pi 6.0.2",
+ "patina_ffs",
+ "patina_lzma_rs",
+ "patina_sdk 8.0.0",
+ "r-efi",
+]
+
+[[package]]
 name = "patina_internal_collections"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "log",
 ]
 
 [[package]]
 name = "patina_internal_cpu"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "arm-gic",
  "cfg-if",
  "lazy_static",
  "log",
- "mu_pi",
+ "mu_pi 6.0.2",
  "patina_mtrr",
  "patina_paging",
- "patina_sdk 6.0.2",
+ "patina_sdk 8.0.0",
  "patina_stacktrace",
  "r-efi",
  "safe-mmio",
@@ -453,7 +493,7 @@ dependencies = [
 
 [[package]]
 name = "patina_internal_depex"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "log",
  "r-efi",
@@ -462,7 +502,7 @@ dependencies = [
 
 [[package]]
 name = "patina_internal_device_path"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "log",
  "r-efi",
@@ -481,11 +521,11 @@ dependencies = [
 
 [[package]]
 name = "patina_mm"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "cfg-if",
  "log",
- "patina_sdk 6.0.2",
+ "patina_sdk 8.0.0",
  "r-efi",
  "x86_64",
 ]
@@ -514,13 +554,13 @@ dependencies = [
 
 [[package]]
 name = "patina_performance"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "log",
- "mu_pi",
+ "mu_pi 6.0.2",
  "mu_rust_helpers",
  "patina_internal_device_path",
- "patina_sdk 6.0.2",
+ "patina_sdk 8.0.0",
  "r-efi",
  "scroll",
  "uuid",
@@ -528,29 +568,10 @@ dependencies = [
 
 [[package]]
 name = "patina_samples"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "log",
- "patina_sdk 6.0.2",
-]
-
-[[package]]
-name = "patina_sdk"
-version = "6.0.2"
-dependencies = [
- "cfg-if",
- "fallible-streaming-iterator",
- "fixedbitset",
- "linkme",
- "log",
- "mu_pi",
- "mu_rust_helpers",
- "num-traits",
- "patina_sdk_macro 6.0.2",
- "r-efi",
- "scroll",
- "uart_16550",
- "x86_64",
+ "patina_sdk 8.0.0",
 ]
 
 [[package]]
@@ -564,7 +585,7 @@ dependencies = [
  "fixedbitset",
  "linkme",
  "log",
- "mu_pi",
+ "mu_pi 5.2.4",
  "mu_rust_helpers",
  "num-traits",
  "patina_sdk_macro 6.2.1",
@@ -575,8 +596,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "patina_sdk"
+version = "8.0.0"
+dependencies = [
+ "cfg-if",
+ "fallible-streaming-iterator",
+ "fixedbitset",
+ "linkme",
+ "log",
+ "mu_pi 6.0.2",
+ "mu_rust_helpers",
+ "num-traits",
+ "patina_sdk_macro 8.0.0",
+ "r-efi",
+ "scroll",
+ "uart_16550",
+ "x86_64",
+]
+
+[[package]]
 name = "patina_sdk_macro"
-version = "6.0.2"
+version = "6.2.1"
+source = "sparse+https://pkgs.dev.azure.com/patina-fw/artifacts/_packaging/temporary/Cargo/index/"
+checksum = "555ed1cb5f01738cee7153a3a46aca10d6e9d3bd1906b224ac2459e2f414c7c0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -586,9 +628,7 @@ dependencies = [
 
 [[package]]
 name = "patina_sdk_macro"
-version = "6.2.1"
-source = "sparse+https://pkgs.dev.azure.com/patina-fw/artifacts/_packaging/temporary/Cargo/index/"
-checksum = "555ed1cb5f01738cee7153a3a46aca10d6e9d3bd1906b224ac2459e2f414c7c0"
+version = "8.0.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -606,7 +646,7 @@ dependencies = [
  "brotli-decompressor",
  "crc32fast",
  "log",
- "mu_pi",
+ "mu_pi 5.2.4",
  "mu_rust_helpers",
  "patina_lzma_rs",
  "patina_sdk 6.2.1",
@@ -615,11 +655,11 @@ dependencies = [
 
 [[package]]
 name = "patina_smbios"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "hashbrown",
  "log",
- "patina_sdk 6.0.2",
+ "patina_sdk 8.0.0",
  "patina_smbios_macro",
  "r-efi",
  "spin",
@@ -627,7 +667,7 @@ dependencies = [
 
 [[package]]
 name = "patina_smbios_macro"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -636,7 +676,7 @@ dependencies = [
 
 [[package]]
 name = "patina_stacktrace"
-version = "6.0.2"
+version = "8.0.0"
 dependencies = [
  "cfg-if",
  "log",
@@ -671,10 +711,11 @@ dependencies = [
  "patina_adv_logger",
  "patina_debugger",
  "patina_dxe_core",
+ "patina_ffs_extractors",
  "patina_mm",
  "patina_performance",
  "patina_samples",
- "patina_sdk 6.0.2",
+ "patina_sdk 8.0.0",
  "patina_section_extractor",
  "patina_smbios",
  "patina_stacktrace",
