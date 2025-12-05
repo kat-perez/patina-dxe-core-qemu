@@ -113,6 +113,7 @@ impl ComponentInfo for Q35 {
         add.component(patina_performance::component::performance::Performance);
         add.component(patina_smbios::component::SmbiosProvider::new(3, 9));
         add.component(q35_services::smbios_platform::Q35SmbiosPlatform::new());
+        add.component(q35_services::smbios_test::Q35SmbiosTest::new());
     }
 }
 
