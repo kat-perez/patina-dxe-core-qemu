@@ -654,6 +654,7 @@ dependencies = [
  "patina_mm",
  "patina_performance",
  "patina_samples",
+ "patina_smbios",
  "patina_stacktrace",
  "r-efi",
  "x86_64",
