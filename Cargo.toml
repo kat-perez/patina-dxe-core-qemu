@@ -22,15 +22,16 @@ path = "src/lib.rs"
 log = { version = "^0.4", default-features = false, features = [
     "release_max_level_warn",
 ] }
-patina_adv_logger = { version = "17" }
-patina_debugger = { version = "17" }
-patina_dxe_core = { version = "17" }
-patina_mm = { version = "17" }
-patina_performance = { version = "17"}
-patina_samples = { version = "17" }
-patina = { version = "17", features = ["enable_patina_tests"] }
-patina_ffs_extractors = { version = "17" }
-patina_stacktrace = { version = "17" }
+patina_adv_logger = { path = "../patina/components/patina_adv_logger" }
+patina_boot = { path = "../patina/components/patina_boot" }
+patina_debugger = { path = "../patina/core/patina_debugger" }
+patina_dxe_core = { path = "../patina/patina_dxe_core" }
+patina_mm = { path = "../patina/components/patina_mm" }
+patina_performance = { path = "../patina/components/patina_performance" }
+patina_samples = { path = "../patina/components/patina_samples" }
+patina = { path = "../patina/sdk/patina", features = ["enable_patina_tests", "unstable-device-path"] }
+patina_ffs_extractors = { path = "../patina/sdk/patina_ffs_extractors" }
+patina_stacktrace = { path = "../patina/core/patina_stacktrace" }
 r-efi = { version = "^5", default-features = false }
 x86_64 = { version = "=0.15.2", default-features = false, features = [
   "instructions"
@@ -62,3 +63,22 @@ doc = []
 std = []
 build_debugger = []
 enable_debugger = ["build_debugger"]
+
+[patch.crates-io]
+patina_adv_logger={path="/home/katperez/current/patina-boot/patina/components/patina_adv_logger"}
+patina={path="/home/katperez/current/patina-boot/patina/sdk/patina"}
+patina_macro={path="/home/katperez/current/patina-boot/patina/sdk/patina_macro"}
+patina_dxe_core={path="/home/katperez/current/patina-boot/patina/patina_dxe_core"}
+patina_debugger={path="/home/katperez/current/patina-boot/patina/core/patina_debugger"}
+patina_internal_cpu={path="/home/katperez/current/patina-boot/patina/core/patina_internal_cpu"}
+patina_stacktrace={path="/home/katperez/current/patina-boot/patina/core/patina_stacktrace"}
+patina_ffs={path="/home/katperez/current/patina-boot/patina/sdk/patina_ffs"}
+patina_internal_collections={path="/home/katperez/current/patina-boot/patina/core/patina_internal_collections"}
+patina_internal_depex={path="/home/katperez/current/patina-boot/patina/core/patina_internal_depex"}
+patina_internal_device_path={path="/home/katperez/current/patina-boot/patina/core/patina_internal_device_path"}
+patina_performance={path="/home/katperez/current/patina-boot/patina/components/patina_performance"}
+patina_mm={path="/home/katperez/current/patina-boot/patina/components/patina_mm"}
+patina_ffs_extractors={path="/home/katperez/current/patina-boot/patina/sdk/patina_ffs_extractors"}
+patina_samples={path="/home/katperez/current/patina-boot/patina/components/patina_samples"}
+patina_smbios={path="/home/katperez/current/patina-boot/patina/components/patina_smbios"}
+patina_boot={path="/home/katperez/current/patina-boot/patina/components/patina_boot"}
