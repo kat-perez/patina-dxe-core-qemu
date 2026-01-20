@@ -22,15 +22,16 @@ path = "src/lib.rs"
 log = { version = "^0.4", default-features = false, features = [
   "release_max_level_warn",
 ] }
-patina_adv_logger = { version = "16" }
-patina_debugger = { version = "16" }
-patina_dxe_core = { version = "16" }
-patina_mm = { version = "16" }
-patina_performance = { version = "16" }
-patina_samples = { version = "16" }
-patina = { version = "16", features = ["enable_patina_tests"] }
-patina_ffs_extractors = { version = "16" }
-patina_stacktrace = { version = "16" }
+patina_adv_logger = { version = "19" }
+patina_debugger = { version = "19" }
+patina_dxe_core = { version = "19" }
+patina_mm = { version = "19" }
+patina_performance = { version = "19" }
+patina_samples = { version = "19" }
+patina_boot = { version = "19" }
+patina = { version = "19", features = ["enable_patina_tests", "unstable-device-path"] }
+patina_ffs_extractors = { version = "19" }
+patina_stacktrace = { version = "19" }
 r-efi = { version = "^5", default-features = false }
 x86_64 = { version = "=0.15.2", default-features = false, features = [
   "instructions",
@@ -56,9 +57,22 @@ opt-level = 0
 [features]
 default = ["compatibility_mode_allowed"]
 compatibility_mode_allowed = ["patina_dxe_core/compatibility_mode_allowed"]
-x64 = ["x86_64"]
-aarch64 = []
+v1_resource_descriptor_support = ["patina_dxe_core/v1_resource_descriptor_support"]
+x64 = ["x86_64", "v1_resource_descriptor_support"]
+aarch64 = ["v1_resource_descriptor_support"]
 doc = []
 std = []
 build_debugger = []
 enable_debugger = ["build_debugger"]
+
+[patch.crates-io]
+patina = { path = "/Users/katsu/work/projects/patina/sdk/patina" }
+patina_adv_logger = { path = "/Users/katsu/work/projects/patina/components/patina_adv_logger" }
+patina_debugger = { path = "/Users/katsu/work/projects/patina/core/patina_debugger" }
+patina_dxe_core = { path = "/Users/katsu/work/projects/patina/patina_dxe_core" }
+patina_ffs_extractors = { path = "/Users/katsu/work/projects/patina/sdk/patina_ffs_extractors" }
+patina_mm = { path = "/Users/katsu/work/projects/patina/components/patina_mm" }
+patina_performance = { path = "/Users/katsu/work/projects/patina/components/patina_performance" }
+patina_samples = { path = "/Users/katsu/work/projects/patina/components/patina_samples" }
+patina_boot = { path = "/Users/katsu/work/projects/patina/components/patina_boot" }
+patina_stacktrace = { path = "/Users/katsu/work/projects/patina/core/patina_stacktrace" }

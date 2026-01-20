@@ -13,6 +13,7 @@
 use core::{ffi::c_void, panic::PanicInfo};
 use patina::{log::Format, serial::uart::Uart16550};
 use patina_adv_logger::{component::AdvancedLoggerComponent, logger::AdvancedLogger};
+use patina_boot::{component::BootOrchestrator, config::BootOptions};
 use patina_dxe_core::*;
 use patina_ffs_extractors::CompositeSectionExtractor;
 use patina_stacktrace::StackTrace;
@@ -80,6 +81,9 @@ impl CpuInfo for Q35 {
     }
 }
 
+/// UEFI scancode for F12 key (per UEFI Spec Table 106)
+const HOTKEY_F12_SCANCODE: u16 = 0x16;
+
 impl ComponentInfo for Q35 {
     fn configs(mut add: Add<Config>) {
         add.config(patina_mm::config::MmCommunicationConfiguration {
@@ -99,7 +103,11 @@ impl ComponentInfo for Q35 {
                | patina::performance::Measurement::LoadImage                // Adds load image measurements.
                | patina::performance::Measurement::StartImage // Adds start image measurements.
             },
-        })
+        });
+        // Configure boot options with F12 hotkey for alternate boot path
+        // Primary boot: \EFI\BOOT\BOOTx64.efi
+        // Alternate boot (when F12 pressed): \EFI\BOOT\BOOTx64.efi (same for now, but demonstrates hotkey detection)
+        add.config(BootOptions::new().with_hotkey(HOTKEY_F12_SCANCODE));
     }
 
     fn components(mut add: Add<Component>) {
@@ -111,6 +119,8 @@ impl ComponentInfo for Q35 {
         add.component(q35_services::mm_test::QemuQ35MmTest::new());
         add.component(patina_performance::component::performance_config_provider::PerformanceConfigurationProvider);
         add.component(patina_performance::component::performance::Performance);
+        // Boot orchestrator with hotkey detection support
+        add.component(BootOrchestrator);
     }
 }
 
