@@ -35,6 +35,7 @@ patina_mm = { version = "20" }
 patina_performance = { version = "20"}
 patina_samples = { version = "20" }
 patina_smbios = { version = "20"}
+patina_boot = { version = "20" }
 patina = { version = "20", features = ["enable_patina_tests"] }
 patina_ffs_extractors = { version = "20" }
 patina_stacktrace = { version = "20" }

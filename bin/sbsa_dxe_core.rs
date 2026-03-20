@@ -11,8 +11,13 @@
 #![no_main]
 
 use core::{ffi::c_void, panic::PanicInfo};
-use patina::{log::Format, serial::uart::UartPl011};
+use patina::{
+    device_path::{node_defs::{FilePath, HardDrive}, paths::DevicePathBuf},
+    log::Format,
+    serial::uart::UartPl011,
+};
 use patina_adv_logger::{component::AdvancedLoggerComponent, logger::AdvancedLogger};
+use patina_boot::{BootDispatcher, SimpleBootManager, config::BootConfig};
 use patina_dxe_core::*;
 use patina_ffs_extractors::CompositeSectionExtractor;
 use patina_smbios;
@@ -69,6 +74,31 @@ impl CpuInfo for Sbsa {
     }
 }
 
+/// Create a partial device path for the EFI System Partition boot target.
+///
+/// Uses a short-form (partial) device path with just the GPT partition and file path.
+/// The boot helpers expand this to the full path at runtime via `LocateDevicePath`.
+fn create_boot_path() -> DevicePathBuf {
+    // EFI System Partition: GUID 48EC37EC-89AF-4BC1-BC56-CD714048A6B5
+    // Start LBA 128, size 409600 sectors, partition 1
+    let partition_guid: [u8; 16] = [
+        0xEC, 0x37, 0xEC, 0x48, 0xAF, 0x89, 0xC1, 0x4B,
+        0xBC, 0x56, 0xCD, 0x71, 0x40, 0x48, 0xA6, 0xB5,
+    ];
+    let mut path = DevicePathBuf::from_device_path_node_iter(
+        core::iter::once(HardDrive::new_gpt(1, 128, 409600, partition_guid)),
+    );
+    let file_path = DevicePathBuf::from_device_path_node_iter(
+        core::iter::once(FilePath::new("\\EFI\\Boot\\BOOTAA64.efi")),
+    );
+    path.append_device_path(&file_path);
+
+    log::info!(
+        "SBSA boot path (partial): HD(1,GPT,48EC37EC-89AF-4BC1-BC56-CD714048A6B5)/\\EFI\\Boot\\BOOTAA64.efi"
+    );
+    path
+}
+
 impl ComponentInfo for Sbsa {
     fn components(mut add: Add<Component>) {
         add.component(AdvancedLoggerComponent::<UartPl011>::new(&LOGGER));
@@ -82,6 +112,15 @@ impl ComponentInfo for Sbsa {
         add.component(patina_performance::component::performance_config_provider::PerformanceConfigurationProvider);
         add.component(patina_performance::component::performance::Performance);
         add.component(patina_acpi::component::AcpiComponent::default());
+        // Boot orchestration with connect-dispatch interleaving
+        add.component(BootDispatcher::new(
+            SimpleBootManager::new(
+                BootConfig::new(create_boot_path())
+                    .with_failure_handler(|| {
+                        log::error!("Boot failed: all boot options exhausted");
+                    }),
+            ),
+        ));
     }
 
     fn configs(mut add: Add<Config>) {
