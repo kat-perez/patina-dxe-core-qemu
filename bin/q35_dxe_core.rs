@@ -11,11 +11,16 @@
 #![no_main]
 
 use core::{ffi::c_void, panic::PanicInfo};
-use patina::{log::Format, serial::uart::Uart16550};
+use patina::{
+    device_path::{node_defs::EndEntire, paths::DevicePathBuf},
+    log::Format,
+    serial::uart::Uart16550,
+};
 use patina_adv_logger::{
     component::AdvancedLoggerComponent,
     logger::{AdvancedLogger, TargetFilter},
 };
+use patina_boot::{BootDispatcher, SreBootManager};
 use patina_dxe_core::*;
 use patina_ffs_extractors::CompositeSectionExtractor;
 use patina_stacktrace::StackTrace;
@@ -121,7 +126,15 @@ impl ComponentInfo for Q35 {
             #[cfg(feature = "exit_on_patina_test_failure")]
             qemu_exit::X86::new(0xf4, 0x1).exit_failure();
         }));
+        add.component(BootDispatcher::new(SreBootManager::new(placeholder_device_path())));
     }
+}
+
+/// Placeholder device path used until the platform wires real paths through PCDs / config HOBs.
+/// Resolves to a single EndEntire node — `lock_partition_write` and `boot_from_device_path` will
+/// surface protocol-not-found errors at runtime, which is the expected behavior pre-wire-up.
+fn placeholder_device_path() -> DevicePathBuf {
+    DevicePathBuf::from_device_path_node_iter(core::iter::once(EndEntire))
 }
 
 impl PlatformInfo for Q35 {

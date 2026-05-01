@@ -29,6 +29,7 @@ log = { version = "^0.4", default-features = false, features = [
 ] }
 patina_acpi = { version = "21" }
 patina_adv_logger = { version = "21" }
+patina_boot = { path = "../patina/components/patina_boot" }
 patina_debugger = { version = "21" }
 patina_dxe_core = { version = "21" }
 patina_mm = { version = "21" }
@@ -36,7 +37,7 @@ patina_performance = { version = "21" }
 patina_samples = { version = "21" }
 patina_smbios = { version = "21" }
 patina_test = { version = "21", features = ["test-runner"] }
-patina = { version = "21" }
+patina = { version = "21", features = ["unstable-device-path"] }
 patina_ffs_extractors = { version = "21" }
 patina_stacktrace = { version = "21" }
 r-efi = { version = "^5", default-features = false }
@@ -58,3 +59,20 @@ std = []
 build_debugger = ["patina_dxe_core/debugger_reload"]
 enable_debugger = ["build_debugger"]
 exit_on_patina_test_failure = ["qemu-exit"]
+
+# Pre-publish dev: redirect every published patina_* crate to the local checkout so
+# `patina_boot` (path dep above) and the registry-versioned crates resolve to the same
+# source. Drop this block once patina_boot is on crates.io.
+[patch.crates-io]
+patina = { path = "../patina/sdk/patina" }
+patina_acpi = { path = "../patina/components/patina_acpi" }
+patina_adv_logger = { path = "../patina/components/patina_adv_logger" }
+patina_debugger = { path = "../patina/core/patina_debugger" }
+patina_dxe_core = { path = "../patina/patina_dxe_core" }
+patina_ffs_extractors = { path = "../patina/sdk/patina_ffs_extractors" }
+patina_mm = { path = "../patina/components/patina_mm" }
+patina_performance = { path = "../patina/components/patina_performance" }
+patina_samples = { path = "../patina/components/patina_samples" }
+patina_smbios = { path = "../patina/components/patina_smbios" }
+patina_stacktrace = { path = "../patina/core/patina_stacktrace" }
+patina_test = { path = "../patina/components/patina_test" }
