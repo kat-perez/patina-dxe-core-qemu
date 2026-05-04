@@ -30,6 +30,7 @@ log = { version = "^0.4", default-features = false, features = [
 patina_acpi = { version = "21" }
 patina_adv_logger = { version = "21" }
 patina_boot = { path = "../patina/components/patina_boot" }
+patina_storage_nvme = { path = "../patina-components/patina_storage_nvme" }
 patina_debugger = { version = "21" }
 patina_dxe_core = { version = "21" }
 patina_mm = { version = "21" }

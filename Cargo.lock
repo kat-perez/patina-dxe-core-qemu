@@ -372,7 +372,7 @@ dependencies = [
  "log",
  "mu_rust_helpers",
  "num-traits",
- "patina_macro",
+ "patina_macro 21.0.1",
  "r-efi",
  "safe-mmio",
  "scroll",
@@ -419,7 +419,7 @@ version = "21.0.1"
 dependencies = [
  "log",
  "patina",
- "patina_macro",
+ "patina_macro 21.0.1",
  "r-efi",
  "spin",
  "zerocopy",
@@ -548,6 +548,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "patina_macro"
+version = "21.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a9eb707320aa4e7691ce9738973d0c112902d3a1f30d89d3c39843e214935346"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+ "uuid",
+]
+
+[[package]]
 name = "patina_mm"
 version = "21.0.1"
 dependencies = [
@@ -602,7 +614,7 @@ version = "21.0.1"
 dependencies = [
  "log",
  "patina",
- "patina_macro",
+ "patina_macro 21.0.1",
  "patina_smbios",
 ]
 
@@ -612,7 +624,7 @@ version = "21.0.1"
 dependencies = [
  "log",
  "patina",
- "patina_macro",
+ "patina_macro 21.0.1",
  "r-efi",
  "spin",
  "zerocopy",
@@ -628,13 +640,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "patina_storage_nvme"
+version = "0.0.1"
+dependencies = [
+ "log",
+ "patina",
+ "patina_macro 21.0.2",
+ "r-efi",
+]
+
+[[package]]
 name = "patina_test"
 version = "21.0.1"
 dependencies = [
  "linkme",
  "log",
  "patina",
- "patina_macro",
+ "patina_macro 21.0.1",
  "r-efi",
  "spin",
 ]
@@ -683,6 +705,7 @@ dependencies = [
  "patina_samples",
  "patina_smbios",
  "patina_stacktrace",
+ "patina_storage_nvme",
  "patina_test",
  "qemu-exit",
  "r-efi",
